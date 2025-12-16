@@ -8,29 +8,30 @@
 
 ## A. 도메인/보안 경계
 
-- [ ] `example.com`(public) 과 `admin.example.com`(admin) 이 정상 동작한다
+- [ ] `example.com`(landing) / `apply.example.com`(public) / `admin.example.com`(admin) 이 정상 동작한다
+- [ ] `example.com`은 최소 안내(링크 제공)만 수행한다 (신청/조회 기능은 `apply.example.com`에서 제공)
 - [ ] 운영자 세션 쿠키가 host-only로 설정되어 `admin.example.com`에서만 유효하다
-- [ ] public 도메인에서 전화번호/이메일 등 PII가 직접 노출되지 않는다(미노출 또는 마스킹)
-- [ ] admin에서만 PII(전화번호/이메일)를 조회할 수 있다
+- [ ] `example.com` 및 `apply.example.com`에서 전화번호/이메일 등 PII가 직접 노출되지 않는다(미노출 또는 마스킹)
+- [ ] `admin.example.com`에서만 PII(전화번호/이메일)를 조회할 수 있다
 
 ---
 
-## B. Public: 신청 생성(Apply)
+## B. Public(apply): 신청 생성(Apply)
 
-- [ ] 사용자가 링크로 접속해 날짜/시간(슬롯)을 선택할 수 있다
+- [ ] 사용자가 `apply.example.com` 링크로 접속해 날짜/시간(슬롯)을 선택할 수 있다
 - [ ] 신청 폼에 이름 + 전화번호(필수), 이메일(선택) 입력이 가능하다
 - [ ] 제출 시 Booking이 생성되고 상태가 `PENDING_PAYMENT`로 저장된다
 - [ ] 신청 완료 화면에 아래가 노출된다
   - [ ] 입금 안내(계좌/금액/정책 텍스트 등 Box 기반 안내)
   - [ ] “확정은 입금 확인 후 처리됩니다.” 문구
   - [ ] “조회 링크로 상태를 확인할 수 있습니다.” 문구
-  - [ ] 조회 링크(토큰 기반)
+  - [ ] 조회 링크(토큰 기반, `apply.example.com/status/[token]`)
 
 ---
 
-## C. Public: 상태 조회(Status by Token)
+## C. Public(apply): 상태 조회(Status by Token)
 
-- [ ] `/status/[token]` 형태로 로그인 없이 상태 조회가 가능하다
+- [ ] `apply.example.com/status/[token]` 형태로 로그인 없이 상태 조회가 가능하다
 - [ ] 상태가 `PENDING_PAYMENT / CONFIRMED / WAITLISTED / CANCELED` 중 하나로 표시된다
 - [ ] 토큰은 링크 불변이다(상태가 바뀌어도 같은 링크로 최신 상태가 보인다)
 - [ ] 토큰 TTL이 30일이다
@@ -39,10 +40,11 @@
 
 ---
 
-## D. Admin: 운영자 인증(매직 링크)
+## D. Admin(admin): 운영자 인증(매직 링크)
 
-- [ ] 운영자가 이메일로 매직 링크 로그인을 할 수 있다
+- [ ] 운영자가 `admin.example.com`에서 이메일로 매직 링크 로그인을 할 수 있다
 - [ ] 로그인 후 세션이 유지된다(새로고침/페이지 이동)
+- [ ] 세션 쿠키는 `admin.example.com`에서만 유효(host-only)하다(도메인 공유 금지)
 
 ---
 
@@ -50,7 +52,7 @@
 
 - [ ] 요일 반복 템플릿(SlotTemplate)로 슬롯/정원을 생성/수정할 수 있다
 - [ ] 특정 날짜 예외(SlotException)로 “비활성화(휴무/대관 등)”를 설정할 수 있다
-- [ ] public에서 슬롯 조회 시 템플릿+예외가 반영된다(비활성화된 날짜는 신청 불가)
+- [ ] public(apply)에서 슬롯 조회 시 템플릿+예외가 반영된다(비활성화된 날짜는 신청 불가)
 
 ---
 

@@ -19,7 +19,7 @@ export default function ApplyPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatusMessage(
-      "제출 준비가 완료되었습니다. 백엔드 연결 시 실제 신청으로 이어집니다.",
+      "제출 준비가 완료되었습니다. 백엔드 연결 시 실제 신청으로 이어집니다."
     );
   };
 
